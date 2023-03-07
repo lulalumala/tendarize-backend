@@ -1,13 +1,14 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const dotenv=require("dotenv")
+const dotenv = require("dotenv")
+const cors=require("cors")
 const app = express()
 const port = process.env.PORT||3001
 
 const userRoutes=require("./routes/user")
 
 dotenv.config()
-
+app.use(cors())
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(port, () => {
