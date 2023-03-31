@@ -8,7 +8,13 @@ const port = process.env.PORT||3001
 const userRoutes=require("./routes/user")
 
 dotenv.config()
-app.use(cors())
+const options = {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  }
+app.use(cors(options))
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(port, () => {

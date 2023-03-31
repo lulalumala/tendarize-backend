@@ -14,10 +14,9 @@ const companySchema = new mongoose.Schema({
     name: { type: String },
     registration: { type: String },
     licence: { type: String },
-    placeOfRegistration: {type: String}
+    placeOfRegistration: { type: String },
+    profileComplete:{type:Boolean, default:false, require}
 })
-
-
 
 
 const register = new mongoose.Schema({
@@ -26,6 +25,7 @@ const register = new mongoose.Schema({
     password: { type: String, require },
     company: { type: companySchema },
     address: { type: addressSchema },
-    profileComplete:{type:Boolean, default:false, require}
+   
 })
-module.exports=mongoose.model("User", register)
+module.exports = mongoose.model("User", register)
+module.exports = {companySchema, addressSchema}
