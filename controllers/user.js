@@ -7,37 +7,62 @@ const { json } = require("express")
 const registerUser = async (req, res) => {
     try {
         const { userName, password, email, address, company } = req.body
-        // if user exists
+
+        const exist = await User.findOne({email}) ||await User.findOne({userName})
         
-        // const exists = await User.findOne({ email }) || await User.findOne({ userName });
-        
-        
-        // if (exists) {
-        //     return res.json({ error: "A user with that username or email already exists" })
-        // }
+        if (exist) {
+            return res.json({error: "a user with the username or email already exists"})
+        }
 
         const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        const hashpassword = await bcrypt.hash(password, salt)
 
-        console.log(hashedPassword)
-
-        const register = new User({
+        const registeredUser = new User({
             userName,
-            password: hashedPassword,
+            password: hashpassword,
             email,
             address,
             company
         })
 
-        console.log(register)
-
-        const saveUser = await register.save()
-        console.log(saveUser)
+        console.log(registeredUser)
+        const saveUser = await registeredUser.save()
         res.status(201).json(saveUser)
-
+        console.log(saveUser)
     } catch (error) {
         return res.json(error)
     }
+
+
+    // try {
+    //     const { userName, password, email, address, company } = req.body
+    //             const exists = await User.findOne({ email }) || await User.findOne({ userName });
+    //     console.log(exists)
+    //     if (exists) {
+    //         return res.json({ error: "A user with that username or email already exists" })
+    //     }
+    //     const salt = await bcrypt.genSalt(10)
+    //     const hashedPassword = await bcrypt.hash(password, salt)
+    //     console.log(hashedPassword)
+
+    //     const register = new User({
+    //         userName,
+    //         password: hashedPassword,
+    //         email,
+    //         address,
+    //         company
+    //     })
+
+    //     console.log(register)
+
+    //     const saveUser = await register.save()
+    //     console.log(saveUser)
+    //     res.status(201).json(saveUser)
+
+    // } catch (error) {
+    //     return res.json(error)
+    // }
+
 }
 
 
@@ -64,7 +89,6 @@ const loginUser = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-
         const { userEmail } = req.body.userEmail
         const { physical, postal, code, phone, email } = req.body.address
         const { logo, name, registration, licence, placeOfRegistration } = req.body.company
@@ -147,7 +171,7 @@ const updateCompany = async (req, res) => {
 
 const advertise = async (req, res) => {
     try {
-        const { lots, category, referenceNo, tenderName, enquiryAddress, firmsProvidingConsultancy, tenderDescription, JVmax, openingDate, closingDate, userId ,company,address} = req.body
+        const { lots, category, referenceNo, tenderName, enquiryAddress, firmsProvidingConsultancy, tenderDescription, JVmax, openingDate, closingDate, userId, company, address } = req.body
 
         const savedAdd = new Add({
             category,
@@ -176,7 +200,7 @@ const advertise = async (req, res) => {
 
 const allTenders = async (req, res) => {
     try {
-        
+
         const tenders = await Add.find()
         res.status(200).json(tenders)
 

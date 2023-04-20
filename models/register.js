@@ -25,7 +25,6 @@ const register = new mongoose.Schema({
     password: { type: String, require },
     company: { type: companySchema },
     address: { type: addressSchema },
-   
 })
+   
 module.exports = mongoose.model("User", register)
-module.exports = {companySchema, addressSchema}
