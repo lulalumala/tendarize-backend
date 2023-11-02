@@ -9,7 +9,7 @@ const addressSchema = new mongoose.Schema({
     phone: { type: String }
 })
 
-const companySchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({  
     logo: { type: String },
     name: { type: String },
     registration: { type: String },
